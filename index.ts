@@ -16,7 +16,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.get("/", async function (req, res) {
   res.send(
     JSON.stringify({
-      version: "1",
+      version: "0",
     })
   );
 });
