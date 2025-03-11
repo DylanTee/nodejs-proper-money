@@ -7,7 +7,6 @@ import {
   ETransactionCategoryType,
   EVerificationOneTimePasswordType,
 } from "./enum";
-import { EGetTransactionsBySort, EGetTransactionsByType } from "./enum";
 
 export type TJwtTokenObject = {
   userId: string;
@@ -244,6 +243,12 @@ export type TGetTransactionResponse = {
     total_items: number;
   };
 };
+
+export type TGetTransactionDetailQuery = {
+  id: string;
+};
+
+export type TGetTransactionDetailResponse = TTransaction;
 
 export type TTransactionCategory = {
   _id: string;

@@ -166,6 +166,14 @@ export async function find({
   };
 }
 
+export async function findOneWithId(_id: string) {
+  return await Model.Transaction.findOne({
+    _id: new mongoose.Types.ObjectId(_id),
+  })
+    .populate("transactionCategory")
+    .populate("transactionLabels");
+}
+
 export async function updateOneWithIdAndUserId({
   _id,
   userId,

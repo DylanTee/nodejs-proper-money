@@ -12,7 +12,6 @@ import ZodLib from "../../libs/zod.lib";
 import mongoose from "mongoose";
 import { removeStartAndEndSpaceInString } from "../../libs/utils";
 import { ProperServices } from "../../services/proper-services";
-import { decode } from "punycode";
 
 export const TransactionRoutes = {
   register: (app: express.Application) => {
@@ -48,6 +47,18 @@ export const TransactionRoutes = {
         }
       }
     );
+    router.get("/transaction/detail", async function (req, res) {
+      try {
+        const id = ZodLib.isMongoId(
+          req.query.id as unknown as string
+        ) as unknown as string;
+        const transaction = await TransactionQuery.findOneWithId(id);
+        const result = transaction;
+        return res.json(result);
+      } catch (e) {
+        return res.status(500).json({ error: e.message });
+      }
+    });
     router.get(
       `/transaction/dashboard`,
       middlewareAccessToken,
