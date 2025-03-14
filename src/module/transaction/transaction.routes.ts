@@ -81,7 +81,7 @@ export const TransactionRoutes = {
             startTransactedAt: startTransactedAt,
             endTransactedAt: endTransactedAt,
           });
-          return res.json(result);
+          return res.json(undefined);
         } catch (e) {
           return res.status(500).json({ error: e.message });
         }
