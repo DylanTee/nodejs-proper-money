@@ -233,7 +233,7 @@ export type TGetTransactionQuery = {
   page: number;
   limit: number;
   transactionCategoryId: string | undefined;
-  transactionLabelId: string | undefined;
+  transactionLabelIds: string[] | undefined;
 };
 
 export type TGetTransactionResponse = {
