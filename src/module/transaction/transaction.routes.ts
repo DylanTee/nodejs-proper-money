@@ -37,8 +37,8 @@ export const TransactionRoutes = {
             sharedUserId: user?.sharedUserId as unknown as string,
             transactionCategoryId: req.query
               .transactionCategoryId as unknown as string,
-            transactionLabelId: req.query
-              .transactionLabelId as unknown as string,
+            transactionLabelIds: req.query
+              .transactionLabelIds as unknown as string[],
           });
           const result = transactions;
           return res.json(result);

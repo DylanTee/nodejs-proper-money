@@ -153,6 +153,7 @@ export type TTransaction = {
   userId: string;
   transactionCategoryId: string;
   transactionLabelIds: string[];
+  user: TUser;
   transactionCategory: TTransactionCategory;
   transactionLabels: TTransactionLabel[] | null;
   currency: string;

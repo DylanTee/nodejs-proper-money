@@ -6,7 +6,6 @@ const schema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       require: true,
-      default: () => null,
     },
     transactionCategoryId: {
       type: Schema.Types.ObjectId,
@@ -32,6 +31,13 @@ const schema = new mongoose.Schema(
   },
   { collection: "transaction" }
 );
+
+schema.virtual("user", {
+  ref: "User",
+  localField: "userId",
+  foreignField: "_id",
+  justOne: true,
+});
 
 schema.virtual("transactionCategory", {
   ref: "TransactionCategory",

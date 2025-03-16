@@ -54,6 +54,7 @@ export async function findWithDateRange({
     ],
   })
     .sort({ transactedAt: -1 })
+    .populate("user")
     .populate("transactionCategory")
     .populate("transactionLabels");
 }
@@ -82,14 +83,14 @@ export async function find({
   userId,
   sharedUserId,
   transactionCategoryId,
-  transactionLabelId,
+  transactionLabelIds,
 }: {
   page: number;
   limit: number;
   userId: string;
   sharedUserId?: string | null;
   transactionCategoryId?: string;
-  transactionLabelId?: string;
+  transactionLabelIds?: string[];
 }) {
   const skip = (page - 1) * limit;
   const [totalDocs, docs] = await Promise.all([
@@ -103,10 +104,12 @@ export async function find({
               ),
             }
           : {},
-        transactionLabelId
+        transactionLabelIds
           ? {
               transactionLabelIds: {
-                $in: [new mongoose.Types.ObjectId(transactionLabelId)],
+                $in: transactionLabelIds.map(
+                  (labelId) => new mongoose.Types.ObjectId(labelId)
+                ),
               },
             }
           : {},
@@ -130,10 +133,12 @@ export async function find({
               ),
             }
           : {},
-        transactionLabelId
+        transactionLabelIds
           ? {
               transactionLabelIds: {
-                $in: [new mongoose.Types.ObjectId(transactionLabelId)],
+                $in: transactionLabelIds.map(
+                  (labelId) => new mongoose.Types.ObjectId(labelId)
+                ),
               },
             }
           : {},
@@ -147,6 +152,7 @@ export async function find({
           : {},
       ],
     })
+      .populate("user")
       .populate("transactionCategory")
       .populate("transactionLabels")
       .sort({ transactedAt: -1, _id: 1 })
@@ -170,6 +176,7 @@ export async function findOneWithId(_id: string) {
   return await Model.Transaction.findOne({
     _id: new mongoose.Types.ObjectId(_id),
   })
+    .populate("user")
     .populate("transactionCategory")
     .populate("transactionLabels");
 }
