@@ -1,4 +1,5 @@
 import {
+  EGetTransactionsByType,
   EMissionType,
   EPointFromType,
   EPointType,
@@ -179,8 +180,10 @@ export type TTimelineTransaction = {
 };
 
 export type TGetTransactionsDashboardQuery = {
-  startTransactedAt: string;
-  endTransactedAt: string;
+  startTransactedAt: Date;
+  endTransactedAt: Date;
+  userId: string;
+  transactionCategoryType: ETransactionCategoryType;
 };
 
 export type TGetTransactionDashboardResponse = {
