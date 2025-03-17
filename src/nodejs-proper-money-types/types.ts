@@ -268,6 +268,7 @@ export type TGetTransactionCategoryQuery = {
   page: number;
   limit: number;
   type: ETransactionCategoryType;
+  userId: string;
 };
 
 export type TGetTransactionCategoryResponse = {
@@ -320,6 +321,7 @@ export type TGetTransactionLabelQuery = {
   q: string;
   page: number;
   limit: number;
+  userId: string;
 };
 
 export type TGetTransactionLabelResponse = {

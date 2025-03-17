@@ -20,7 +20,9 @@ export const TransactionCategoryRoutes = {
         res
       ) {
         try {
-          const userId = ZodLib.isMongoId(req.decode?.userId) as string;
+          const userId = ZodLib.isMongoId(
+            req.query.userId as unknown as string
+          ) as string;
           const transactionCategories = await TransactionCategoryQuery.find({
             userId,
             page: req.query.page as unknown as number,

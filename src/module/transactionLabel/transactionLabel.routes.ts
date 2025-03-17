@@ -22,7 +22,9 @@ export const TransactionLabelRoutes = {
         res
       ) {
         try {
-          const userId = ZodLib.isMongoId(req.decode?.userId) as string;
+          const userId = ZodLib.isMongoId(
+            req.query.userId as unknown as string
+          ) as string;
           const result = await TransactionLabelQuery.find({
             userId,
             page: req.query.page as unknown as number,
