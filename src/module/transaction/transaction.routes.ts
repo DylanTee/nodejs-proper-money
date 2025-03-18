@@ -2,7 +2,6 @@ import * as express from "express";
 import * as UserQuery from "../../libs/moongoose/query/user.query";
 import * as TransactionQuery from "../../libs/moongoose/query/transaction.query";
 import { middlewareAccessToken } from "../middleware";
-import { TransactionServices } from "./services/index";
 import {
   TJwtTokenObject,
   TUser,
@@ -12,6 +11,7 @@ import ZodLib from "../../libs/zod.lib";
 import mongoose from "mongoose";
 import { removeStartAndEndSpaceInString } from "../../libs/utils";
 import { ProperServices } from "../../services/proper-services";
+import * as TransactionAggregate from "../../libs/moongoose/aggregate/transaction.aggregate";
 
 export const TransactionRoutes = {
   register: (app: express.Application) => {
@@ -69,19 +69,20 @@ export const TransactionRoutes = {
         res
       ) {
         try {
-          const userId = ZodLib.isMongoId(req.decode?.userId) as string;
+          const userId = ZodLib.isMongoId(req.query?.userId as unknown as string) as string;
           const startTransactedAt = ZodLib.isString(
             req.query.startTransactedAt as string
-          ) as string;
+          ) as unknown as Date;
           const endTransactedAt = ZodLib.isString(
             req.query.endTransactedAt as string
-          ) as string;
-          const result = await TransactionServices.getDashboard({
-            userId: userId,
-            startTransactedAt: startTransactedAt,
-            endTransactedAt: endTransactedAt,
-          });
-          return res.json(undefined);
+          ) as unknown as Date;
+          const result =
+            await TransactionAggregate.getTotalIncomeAndExpensesByDateRange({
+              userId,
+              startTransactedAt,
+              endTransactedAt,
+            });
+          return res.json(result);
         } catch (e) {
           return res.status(500).json({ error: e.message });
         }

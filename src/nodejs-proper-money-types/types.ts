@@ -183,29 +183,23 @@ export type TGetTransactionsDashboardQuery = {
   startTransactedAt: Date;
   endTransactedAt: Date;
   userId: string;
-  transactionCategoryType: ETransactionCategoryType;
 };
 
-export type TGetTransactionDashboardResponse = {
-  user: {
-    transactions: TTransaction[];
-    transactionCategories: TTransactionCategory[];
-    transactionLabels: TTransactionLabel[];
-    timelineTransactions: TTimelineTransaction[];
-  };
-  sharedUser: {
-    transactions: TTransaction[];
-    transactionCategories: TTransactionCategory[];
-    transactionLabels: TTransactionLabel[];
-    timelineTransactions: TTimelineTransaction[];
-  };
-  total: {
-    transactions: TTransaction[];
-    transactionCategories: TTransactionCategory[];
-    transactionLabels: TTransactionLabel[];
-    timelineTransactions: TTimelineTransaction[];
-  };
+export type TTransactionDashboardCategoryType = {
+  currency: string;
+  totalAmount: number;
+  categories: (TTransactionCategory & {
+    totalAmount: number;
+    percentage: number;
+  })[];
 };
+
+export type TGetTransactionDashboardResponse =
+  | {
+      income: TTransactionDashboardCategoryType[];
+      expense: TTransactionDashboardCategoryType[];
+    }
+  | undefined;
 
 export type TPostTransactionCreateBody = {
   transactionCategoryId: string;
