@@ -229,6 +229,9 @@ export type TPostTransactionDeleteBody = {
 export type TGetTransactionQuery = {
   page: number;
   limit: number;
+  targetUserId: string | undefined;
+  startTransactedAt: Date | undefined;
+  endTransactedAt: Date | undefined;
   transactionCategoryId: string | undefined;
   transactionLabelIds: string[] | undefined;
 };

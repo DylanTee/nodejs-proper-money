@@ -27,7 +27,7 @@ export const TransactionRoutes = {
       ) {
         try {
           const userId = ZodLib.isMongoId(
-            req.decode?.userId
+            req.query?.targetUserId as unknown as string
           ) as unknown as string;
           const user = await UserQuery.findOneById(userId);
           const transactions = await TransactionQuery.find({
@@ -39,6 +39,8 @@ export const TransactionRoutes = {
               .transactionCategoryId as unknown as string,
             transactionLabelIds: req.query
               .transactionLabelIds as unknown as string[],
+            startTransactedAt: req.query.startTransactedAt as unknown as Date,
+            endTransactedAt: req.query.endTransactedAt as unknown as Date,
           });
           const result = transactions;
           return res.json(result);
@@ -69,7 +71,9 @@ export const TransactionRoutes = {
         res
       ) {
         try {
-          const userId = ZodLib.isMongoId(req.query?.userId as unknown as string) as string;
+          const userId = ZodLib.isMongoId(
+            req.query?.userId as unknown as string
+          ) as string;
           const startTransactedAt = ZodLib.isString(
             req.query.startTransactedAt as string
           ) as unknown as Date;

@@ -84,6 +84,8 @@ export async function find({
   sharedUserId,
   transactionCategoryId,
   transactionLabelIds,
+  startTransactedAt,
+  endTransactedAt,
 }: {
   page: number;
   limit: number;
@@ -91,6 +93,8 @@ export async function find({
   sharedUserId?: string | null;
   transactionCategoryId?: string;
   transactionLabelIds?: string[];
+  startTransactedAt: Date | undefined;
+  endTransactedAt: Date | undefined;
 }) {
   const skip = (page - 1) * limit;
   const [totalDocs, docs] = await Promise.all([
@@ -110,6 +114,14 @@ export async function find({
                 $in: transactionLabelIds.map(
                   (labelId) => new mongoose.Types.ObjectId(labelId)
                 ),
+              },
+            }
+          : {},
+        startTransactedAt && endTransactedAt
+          ? {
+              transactedAt: {
+                $gte: startTransactedAt,
+                $lte: endTransactedAt,
               },
             }
           : {},
@@ -139,6 +151,14 @@ export async function find({
                 $in: transactionLabelIds.map(
                   (labelId) => new mongoose.Types.ObjectId(labelId)
                 ),
+              },
+            }
+          : {},
+        startTransactedAt && endTransactedAt
+          ? {
+              transactedAt: {
+                $gte: startTransactedAt,
+                $lte: endTransactedAt,
               },
             }
           : {},
