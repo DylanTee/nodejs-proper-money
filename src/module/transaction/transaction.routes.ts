@@ -33,7 +33,7 @@ export const TransactionRoutes = {
           const transactions = await TransactionQuery.find({
             page: req.query.page as unknown as number,
             limit: req.query.limit as unknown as number,
-            userId,
+            userId:user?._id as unknown as string,
             sharedUserId: user?.sharedUserId as unknown as string,
             transactionCategoryId: req.query
               .transactionCategoryId as unknown as string,

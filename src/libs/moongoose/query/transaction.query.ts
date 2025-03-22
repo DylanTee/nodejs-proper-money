@@ -96,12 +96,12 @@ export async function find({
   startTransactedAt: Date | undefined;
   endTransactedAt: Date | undefined;
 }) {
+  
   const skip = (page - 1) * limit;
   const [totalDocs, docs] = await Promise.all([
     Model.Transaction.find({
       $and: [
         { isDeleted: false },
-        { userId: new mongoose.Types.ObjectId(userId) },
         transactionCategoryId
           ? {
               transactionCategoryId: new mongoose.Types.ObjectId(
@@ -126,19 +126,23 @@ export async function find({
               },
             }
           : {},
-      ],
-      $or: [
-        sharedUserId
-          ? {
-              userId: new mongoose.Types.ObjectId(sharedUserId),
-            }
-          : {},
+        {
+          $or: [
+            { userId: new mongoose.Types.ObjectId(userId) },
+            sharedUserId
+              ? {
+                  userId: new mongoose.Types.ObjectId(sharedUserId),
+                }
+              : {
+                  userId: new mongoose.Types.ObjectId(userId),
+                },
+          ],
+        },
       ],
     }).countDocuments(),
     Model.Transaction.find({
       $and: [
         { isDeleted: false },
-        { userId: new mongoose.Types.ObjectId(userId) },
         transactionCategoryId
           ? {
               transactionCategoryId: new mongoose.Types.ObjectId(
@@ -163,13 +167,18 @@ export async function find({
               },
             }
           : {},
-      ],
-      $or: [
-        sharedUserId
-          ? {
-              userId: new mongoose.Types.ObjectId(sharedUserId),
-            }
-          : {},
+        {
+          $or: [
+            { userId: new mongoose.Types.ObjectId(userId) },
+            sharedUserId
+              ? {
+                  userId: new mongoose.Types.ObjectId(sharedUserId),
+                }
+              : {
+                  userId: new mongoose.Types.ObjectId(userId),
+                },
+          ],
+        },
       ],
     })
       .populate("user")
