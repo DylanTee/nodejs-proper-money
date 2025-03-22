@@ -101,6 +101,7 @@ export async function find({
     Model.Transaction.find({
       $and: [
         { isDeleted: false },
+        { userId: new mongoose.Types.ObjectId(userId) },
         transactionCategoryId
           ? {
               transactionCategoryId: new mongoose.Types.ObjectId(
@@ -127,7 +128,6 @@ export async function find({
           : {},
       ],
       $or: [
-        { userId: new mongoose.Types.ObjectId(userId) },
         sharedUserId
           ? {
               userId: new mongoose.Types.ObjectId(sharedUserId),
@@ -138,6 +138,7 @@ export async function find({
     Model.Transaction.find({
       $and: [
         { isDeleted: false },
+        { userId: new mongoose.Types.ObjectId(userId) },
         transactionCategoryId
           ? {
               transactionCategoryId: new mongoose.Types.ObjectId(
@@ -164,7 +165,6 @@ export async function find({
           : {},
       ],
       $or: [
-        { userId: new mongoose.Types.ObjectId(userId) },
         sharedUserId
           ? {
               userId: new mongoose.Types.ObjectId(sharedUserId),
