@@ -366,9 +366,6 @@ export type TUser = {
   sharedUserId: string | null;
   sharedUserInfo: TSharedUserInfo;
   lastActiveAt: Date;
-  premiumMemberTrialEndAt: Date | null;
-  topUpMemberRole: ESubscriptionEntitlement | null;
-  topUpMemberEndAt: Date | null;
   createdAt: Date;
   notificationToken: string | null;
 };

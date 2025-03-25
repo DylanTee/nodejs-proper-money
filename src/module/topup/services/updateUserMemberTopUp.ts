@@ -32,13 +32,4 @@ export default async function updateUserMemberTopUp({
     role = ESubscriptionEntitlement.premium;
     endAt = MomentTimezoneLib.addOneYear(new Date());
   }
-
-  await UserServices.updateUser({
-    userId: userId,
-    data: {
-      topUpMemberRole: role,
-      topUpMemberEndAt: endAt,
-      premiumMemberTrialEndAt: null,
-    },
-  });
 }

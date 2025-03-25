@@ -2,7 +2,7 @@ require("dotenv").config();
 import mongoose, { Schema } from "mongoose";
 const schema = new mongoose.Schema(
   {
-    phoneNumber: { type: String, require: true },
+    phoneNumber: { type: String, require: true, unique: true },
     displayName: {
       type: String,
       require: true,
@@ -28,22 +28,13 @@ const schema = new mongoose.Schema(
     },
     notificationToken: { type: String || null, default: () => null },
     lastActiveAt: { type: Date, default: () => new Date() },
-    premiumMemberTrialEndAt: { type: Date || null, default: () => null },
-    topUpMemberRole: {
-      type: String || null,
-      default: () => null,
-    },
-    topUpMemberEndAt: {
-      type: Date || null,
-      default: () => null,
-    },
     createdAt: { type: Date, immutable: true, default: () => new Date() },
   },
   { collection: "user" }
 );
 
 schema.virtual("sharedUserInfo", {
-  ref: "User", 
+  ref: "User",
   localField: "sharedUserId",
   foreignField: "_id",
   justOne: true,

@@ -2,16 +2,13 @@ import mongoose from "mongoose";
 import { Model } from "../mongoose.lib";
 
 export async function create({
-  phoneNumber,
-  premiumMemberTrialEndAt,
+  phoneNumber
 }: {
   phoneNumber: string;
-  premiumMemberTrialEndAt: Date;
 }) {
   return await Model.User.create({
     phoneNumber: phoneNumber,
-    displayName: phoneNumber,
-    premiumMemberTrialEndAt: premiumMemberTrialEndAt,
+    displayName: phoneNumber
   });
 }
 
@@ -162,28 +159,6 @@ export async function updateOneById({ _id, data }: { _id: string; data: any }) {
     { _id: new mongoose.Types.ObjectId(_id) },
     {
       $set: data,
-    }
-  );
-}
-
-export async function updateManyMemberEndAtByExpired() {
-  return await Model.User.updateMany(
-    {
-      $or: [
-        {
-          premiumMemberTrialEndAt: { $lte: new Date() },
-        },
-        {
-          topUpMemberEndAt: { $lte: new Date() },
-        },
-      ],
-    },
-    {
-      $set: {
-        premiumMemberTrialEndAt: null,
-        topUpMemberEndAt: null,
-        topUpMemberRole: null,
-      },
     }
   );
 }

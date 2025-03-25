@@ -37,13 +37,8 @@ export default async function verifyOneTimePassword({
           const tokens = signJWTtoken({ userId: user._id });
           return tokens;
         } else {
-          const today = MomentTimezoneLib.getStartAndEndOfDay(new Date());
-          const premiumMemberTrialEndAt = MomentTimezoneLib.addSevenDays(
-            today.endAt
-          );
           const newUser = await UserQuery.create({
-            phoneNumber: phoneNumber,
-            premiumMemberTrialEndAt: premiumMemberTrialEndAt,
+            phoneNumber: phoneNumber
           });
           const tokens = signJWTtoken({
             userId: newUser._id as unknown as string,
