@@ -38,9 +38,7 @@ export const getTotalIncomeAndExpensesByDateRange = async ({
         as: "category",
       },
     },
-    {
-      $unwind: "$category",
-    },
+    { $unwind: "$category" },
     {
       $group: {
         _id: { currency: "$_id.currency", type: "$category.type" },
@@ -66,7 +64,12 @@ export const getTotalIncomeAndExpensesByDateRange = async ({
         totalAmount: 1,
         categories: {
           $map: {
-            input: "$categories",
+            input: {
+              $sortArray: {
+                input: "$categories",
+                sortBy: { totalAmount: -1 }, // ⬅️ Sort categories by totalAmount descending
+              },
+            },
             as: "category",
             in: {
               _id: "$$category._id",
@@ -97,7 +100,7 @@ export const getTotalIncomeAndExpensesByDateRange = async ({
               {
                 currency: "$currency",
                 totalAmount: "$totalAmount",
-                categories: "$categories",
+                categories: "$categories", // Sorted categories inside
               },
               "$$REMOVE",
             ],
@@ -110,7 +113,7 @@ export const getTotalIncomeAndExpensesByDateRange = async ({
               {
                 currency: "$currency",
                 totalAmount: "$totalAmount",
-                categories: "$categories",
+                categories: "$categories", // Sorted categories inside
               },
               "$$REMOVE",
             ],
@@ -118,13 +121,9 @@ export const getTotalIncomeAndExpensesByDateRange = async ({
         },
       },
     },
-    {
-      $project: {
-        _id: 0,
-        income: 1,
-        expense: 1,
-      },
-    },
+    { $project: { _id: 0, income: 1, expense: 1 } },
   ]);
+
   return arr.length > 0 ? arr[0] : undefined;
 };
+
