@@ -12,7 +12,7 @@ export const UserRoutes = {
   register: (app: express.Application) => {
     const router = express.Router();
     router.post(
-      "/user/refreshUserAccessToken",
+      "/user/refresh-access-token",
       middlewareRefreshToken,
       async function (
         req: express.Request & {
