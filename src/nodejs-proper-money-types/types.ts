@@ -230,6 +230,7 @@ export type TGetTransactionQuery = {
   page: number;
   limit: number;
   targetUserId: string | undefined;
+  isHideSharedUserTransactions: boolean;
   startTransactedAt: Date | undefined;
   endTransactedAt: Date | undefined;
   transactionCategoryId: string | undefined;
